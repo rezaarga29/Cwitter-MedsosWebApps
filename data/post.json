@@ -1,21 +1,21 @@
 [{
     "id": 1,
     "content": "Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.",
-    "UserId": 1
+    "ProfileId": 1
   }, {
     "id": 2,
     "content": "Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla.",
-    "UserId": 2
+    "ProfileId": 2
   }, {
     "id": 3,
     "content": "In est risus, auctor sed, tristique in, tempus sit amet, sem.",
-    "UserId": 3
+    "ProfileId": 3
   }, {
     "id": 4,
     "content": "Phasellus in felis. Donec semper sapien a libero.",
-    "UserId": 4
+    "ProfileId": 4
   }, {
     "id": 5,
     "content": "Proin at turpis a pede posuere nonummy.",
-    "UserId": 5
+    "ProfileId": 5
   }]
