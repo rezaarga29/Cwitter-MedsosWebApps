@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "first_name": "Archibaldo",
+        "last_name": "Gransden",
+        "email": "agransden0@storify.com",
+        "birthOfDate": "2002-10-16"
+    },
+    {
+        "id": 2,
+        "first_name": "Cecilla",
+        "last_name": "Spurge",
+        "email": "cspurge1@merriam-webster.com",
+        "birthOfDate": "1993-04-18"
+    },
+    {
+        "id": 3,
+        "first_name": "Francklin",
+        "last_name": "Seth",
+        "email": "fseth2@imageshack.us",
+        "birthOfDate": "2006-04-07"
+    },
+    {
+        "id": 4,
+        "first_name": "Orelee",
+        "last_name": "Templar",
+        "email": "otemplar3@jimdo.com",
+        "birthOfDate": "2006-01-21"
+    },
+    {
+        "id": 5,
+        "first_name": "Keelia",
+        "last_name": "Lapides",
+        "email": "klapides4@wix.com",
+        "birthOfDate": "2002-12-10"
+    }
+]
