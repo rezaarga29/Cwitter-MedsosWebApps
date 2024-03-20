@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "email": "hdicty0@joomla.org",
+        "password": "gA0)av0mkB(",
+        "role": "Admin"
+    },
+    {
+        "id": 2,
+        "email": "bballam1@boston.com",
+        "password": "vQ3=f'OGC$#`",
+        "role": "User"
+    },
+    {
+        "id": 3,
+        "email": "cmelia2@pagesperso-orange.fr",
+        "password": "rS0}tN#FSsuC'",
+        "role": "User"
+    },
+    {
+        "id": 4,
+        "email": "vdarbishire3@rambler.ru",
+        "password": "fX8=mU6k,<",
+        "role": "User"
+    },
+    {
+        "id": 5,
+        "email": "nbelk4@marketwatch.com",
+        "password": "cK3!tFzpzXN",
+        "role": "User"
+    }
+]
