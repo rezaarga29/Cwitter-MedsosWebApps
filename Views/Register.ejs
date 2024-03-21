@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
       padding: 0;
       background-color: #f4f4f4;
     }
+
     .container {
       max-width: 400px;
       margin: 50px auto;
@@ -19,15 +21,18 @@
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     h2 {
       font-size: 24px;
       color: #333;
       margin-bottom: 20px;
       text-align: center;
     }
+
     form {
       text-align: center;
     }
+
     input[type="email"],
     input[type="password"] {
       width: 100%;
@@ -37,6 +42,7 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
+
     input[type="text"] {
       width: 100%;
       padding: 10px;
@@ -45,6 +51,7 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
+
     input[type="submit"] {
       width: 100%;
       padding: 10px;
@@ -55,14 +62,17 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     input[type="submit"]:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h2>Register to Cwitter</h2>
+
     <form action="/register" method="post">
       <input type="email" name="email" placeholder="Enter your email">
       <input type="password" name="password" placeholder="Enter your password">
@@ -72,4 +82,5 @@
     </form>
   </div>
 </body>
+
 </html>

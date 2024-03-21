@@ -80,8 +80,9 @@
 <body>
   <nav class="navbar">
     <a href="#" class="navbar-brand">Cwitter</a>
+    <a href="/myprofiles/<%= id %>" class="navbar-btn">My Profile</a>
     <a href="/profiles" class="navbar-btn">All Users</a>
-    <a href="/" class="navbar-btn">Logout</a>
+    <a href="/logout" class="navbar-btn">Logout</a>
   </nav>
   
   <div class="container">
@@ -95,7 +96,7 @@
             <p class="tweet-author"><%= published(j.createdAt) %></p>
           <% }); %>
         <% }); %>
-      </div>z
+      </div>
     <% }); %>
   </div>
 </body>

@@ -1,5 +1,5 @@
 const published = require('../helper/published');
-const {User, Profile, Tag, Post} = require('../models');
+const {User, Profile, Tag, Post, PostTag} = require('../models');
 const bcryptjs = require('bcryptjs');
 const { Op } = require('sequelize')
 
@@ -12,7 +12,14 @@ class Controller {
             await Profile.create({name, address, UserId: user.id})
             res.redirect('/login');
         } catch (error) {
-            res.send(error)
+            if (error.name === 'SequelizeValidationError') {
+                let errors = error.errors.map((e) => {
+                    return e.message;
+                });
+                res.send(errors[0]); // Mengirim pesan kesalahan pertama saja
+            } else {
+                res.send(error)
+            }
         }
     }
 
@@ -29,6 +36,9 @@ class Controller {
         try {
             let { email, password } = req.body
             let user = await User.findOne({ where: { email: email } })
+            const userId = user.id;
+            req.session.role = user.role
+            req.session.userId = userId
             if (user) {
                 const isValidPassword = bcryptjs.compareSync(password, user.password)
                 if (isValidPassword) {
@@ -42,8 +52,18 @@ class Controller {
                 res.redirect(`/Login?error=${error}`)
             }
         } catch (error) {
+            console.log(error)
             res.send(error)
         }
+    }
+
+    static async getLogout(req, res) {
+        req.session.destroy((err) => {
+            if (err) res.send(err)
+            else {
+                res.redirect('/')
+            }
+        })
     }
 
     static async getPost(req, res){
@@ -56,10 +76,11 @@ class Controller {
                   }
                 ],
                 where: {
-                    '$Posts.id$': { [Op.not]: null } // Memastikan setidaknya satu postingan tersedia
+                    '$Posts.id$': { [Op.not]: null } 
                 }
               })
-            res.render('Contents', {data, published})
+              let id = req.session.userId;
+            res.render('Contents', {data, published, id})
         } catch (error) {
             res.send(error)
         }
@@ -67,8 +88,18 @@ class Controller {
 
     static async getProfiles(req, res){
         try {
-            let data = await Profile.findAll()
-            res.render('ListProfile', {data})
+            let { search } = req.query
+            const { error } = req.query
+            let option = {
+            where: {}
+            }
+            if (search) {
+            option.where.name = { [Op.iLike]: `%${search}%` }
+            }
+            let data = await Profile.findAll(option)
+            let totalUser = await Profile.getTotalUser();
+            let id = req.session.userId;
+            res.render('ListProfile', {data, totalUser, error, id})
         } catch (error) {
             res.send(error)
         }
@@ -117,26 +148,77 @@ class Controller {
             let { id } = req.params;
             let { content, hashTag} = req.body;
             let post = await Post.create({content, ProfileId: id});
-            for (let hashTag of hashTags) {
-                let tag = await Tag.findOne({ where: { hashTag } }); // Cari tag yang sesuai dengan hashTag
-                let tagId;
-                if (tag) {
-                    tagId = tag.id; // Jika tag sudah ada, gunakan ID tag yang ada
-                } else {
-                    let newTag = await Tag.create({ hashTag }); // Jika tag belum ada, buat tag baru
-                    tagId = newTag.id;
-                }
-                await PostTag.create({ PostId: post.id, TagId: tagId }); // Buat record di tabel konjungsi PostTag
+            if(hashTag.length > 1) {
+                hashTag = hashTag.map( async (e)=> {
+                    await PostTag.create({PostId: post.id, TagId: e})
+                })
+            } else {
+                await PostTag.create({PostId: post.id, TagId: hashTag})
             }
-            res.redirect(`/myprofiles/${id}`, {data, published})
+            // await PostTag.bulkCreate(hashTag)
+            res.redirect(`/myprofiles/${id}`)
         } catch (error) {
+            console.log(error)
             res.send(error)
         }
     }
 
+    static async getEditProfile(req, res) {
+        try {
+            let {id} = req.params;
+            let data = await Profile.findByPk(id)
+            res.render('EditUser', {data});
+        } catch (error) {
+            console.log(error)
+            res.send(error);
+        }
+    }
 
+    static async postEditProfile(req, res) {
+        try {
+            let {id} = req.params;
+            let data = await Profile.findByPk(id);
+            let {name, address} = req.body;
+            // res.send(req.files.photoProfile)
+        // Periksa apakah file diunggah
+            if (req.files && req.files.photoProfile) {
+                let photoProfile = req.files.photoProfile;
 
+            // Simpan file ke direktori yang diinginkan
+                let directory = './uploads';
+                    if (!fs.existsSync(directory)) {
+                        fs.mkdirSync(directory);
+                    }
+                let filePath = `${directory}/${photoProfile.name}`;
+                await photoProfile.mv(filePath);
 
+            // Update path foto profil di database
+                await data.update({name, address, photoProfile: filePath});
+            } 
+            else {
+            await data.update({name, address});
+            }
+            res.redirect(`/myprofiles/${id}`);
+        } catch (error) {
+            console.log(error)
+            res.send(error);
+        }
+    }
+
+    static async getDeleteContent(req, res) {
+        try {
+            let id = req.params.id;
+            let postId = req.params.postId
+            let post = await Post.findByPk(postId);
+            if (!post) throw new Error('Post not found!');
+            await PostTag.destroy({ where: { PostId: postId } });
+            await post.destroy();
+            res.redirect(`/myprofiles/${id}`);
+        } catch (error) {
+            console.log(error)
+            res.send(error);
+        }
+    }
 
 }
 

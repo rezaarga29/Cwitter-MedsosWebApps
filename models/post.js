@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.Profile);
       Post.belongsToMany(models.Tag, { through: 'PostTag' });
     }
+
   }
   Post.init({
     content: DataTypes.STRING

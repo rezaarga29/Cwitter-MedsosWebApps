@@ -14,10 +14,40 @@ module.exports = (sequelize, DataTypes) => {
       Profile.belongsTo(models.User);
       Profile.hasMany(models.Post);
     }
+    static getTotalUser() {
+      return Profile.count();
+    }
+
+    get street() {
+      return this.address + ' ' + 'Street'
+    }
+
   }
   Profile.init({
-    name: DataTypes.STRING,
-    address: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `Name is required`
+        },
+        notNull: {
+          msg: `Name cannot be Null`
+        }
+      }
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `Address is required`
+        },
+        notNull: {
+          msg: `Address cannot be Null`
+        }
+      }
+    },
     photoProfile: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
     userName: DataTypes.STRING

@@ -163,7 +163,7 @@
   <nav class="navbar">
     <a href="#" class="navbar-brand">Cwitter</a>
     <a href="/post" class="people-content-btn">People Content</a>
-    <a style="text-decoration: none;" href="/" class="logout-btn">Logout</a>
+    <a style="text-decoration: none;" href="/logout" class="logout-btn">Logout</a>
   </nav>
   <div class="container">
     <% data.forEach((e)=> { %>
@@ -173,6 +173,7 @@
         <h2 class="name"><%= e.name %></h2>
         <p class="address"><%= e.address %></p>
         <p class="address"><%= e.userName %></p>
+        <a href="/myprofiles/<%= e.id %>/edit"><button>Edit</button></a>
       </div>
     </div>
   </div>
@@ -193,12 +194,14 @@
     <% e.Posts.forEach(i => { %>
     <p class="tweet-text"><%= i.content %></p>
     <% i.Tags.forEach(j => { %>
-    <p class="tweet-text"><%= j.hashTag %></p>
+    <p style="margin: 1px;" class="tweet-text"><%= j.hashTag %></p>
     <a href="/profiles/<%= e.id %>">
-      <p class="tweet-author">Posted by <%= e.name %></p>
     </a>
-    <p class="tweet-author"><%= published(j.createdAt) %></p>
     <% }); %>
+    <p class="tweet-author">Posted by <%= e.name %></p>
+    <p class="tweet-author"><%= published(i.createdAt) %></p>
+    <a href="/myprofiles/<%= e.id %>/delete/<%= i.id %>"><button>Delete</button></a>
+    <hr>
     <% }); %>
   </div>
   <% }) %>

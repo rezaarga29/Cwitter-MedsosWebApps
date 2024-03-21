@@ -55,8 +55,8 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      text-decoration: none; /* Menambahkan style untuk menghapus underline */
-      margin-right: 10px; /* Menambahkan margin untuk jarak dari tombol search */
+      text-decoration: none;
+      margin-right: 10px;
     }
 
     .logout-btn {
@@ -70,19 +70,18 @@
     .container {
       max-width: 800px;
       margin: 20px auto;
-      /* Penambahan margin di sini */
+      text-align: center;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: space-around;
     }
 
     .card {
-      width: 300px;
+      width: calc(33.33% - 20px);
       background-color: #fff;
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       margin: 10px;
-      /* Penambahan margin di sini */
       overflow: hidden;
     }
 
@@ -107,6 +106,13 @@
       color: #666;
       margin-bottom: 20px;
     }
+
+    .total-user {
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
+      flex-grow: 1; /* Membuat total user menempati ruang yang tersisa di navbar */
+    }
   </style>
 </head>
 
@@ -114,26 +120,32 @@
   <nav class="navbar">
     <div>
       <a href="#" class="navbar-brand">Cwitter</a>
+      <a href="#" class="people-content-btn">My Profile</a>
       <a href="/post" class="people-content-btn">People Content</a>
-      <a href="#" class="people-content-btn">My Profile</a> <!-- Tombol People Content -->
+      <a href="/profiles" class="people-content-btn">All User</a>
     </div>
+    <span class="total-user">Total User: <%= totalUser %></span> 
     <form action="#" method="GET" class="search-form">
       <input type="text" name="search" class="search-input" placeholder="Search...">
       <button type="submit" class="search-btn">Search</button>
     </form>
-    <a style="text-decoration: none;" href="/" class="logout-btn">Logout</a> <!-- Tombol Logout -->
+    <a style="text-decoration: none;" href="/logout" class="logout-btn">Logout</a>
   </nav>
+
   <div class="container">
     <% data.forEach((e)=> { %>
         <div class="card">
           <img src="<%= e.photoProfile %>" alt="Profile Photo">
           <div class="card-content">
             <h2 class="name"><%= e.name %></h2>
-            <p class="address"><%= e.address %></p>
+            <p class="address"><%= e.street %></p>
             <a href="/profiles/<%= e.id %>"><button>Details</button></a>
+            <% if (error) { %>
+              <p class="error-msg"><%= error%>!!!</p>
+            <%} %>
           </div>
         </div>
-    <% }) %>
+        <% }) %>
   </div>
 </body>
 
