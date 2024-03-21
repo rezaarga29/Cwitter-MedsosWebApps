@@ -1,7 +1,8 @@
 const published = require('../helper/published');
 const {User, Profile, Tag, Post, PostTag} = require('../models');
 const bcryptjs = require('bcryptjs');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+const fs = require('fs');
 
 class Controller {
 
@@ -176,29 +177,28 @@ class Controller {
 
     static async postEditProfile(req, res) {
         try {
-            let {id} = req.params;
-            let data = await Profile.findByPk(id);
-            let {name, address} = req.body;
-            // res.send(req.files.photoProfile)
+            const {id} = req.params;
+        const data = await Profile.findByPk(id);
+        const {name, address} = req.body;
+
         // Periksa apakah file diunggah
-            if (req.files && req.files.photoProfile) {
-                let photoProfile = req.files.photoProfile;
+        if (req.files && req.files.photoProfile) {
+            const photoProfile = req.files.photoProfile;
 
             // Simpan file ke direktori yang diinginkan
-                let directory = './uploads';
-                    if (!fs.existsSync(directory)) {
-                        fs.mkdirSync(directory);
-                    }
-                let filePath = `${directory}/${photoProfile.name}`;
-                await photoProfile.mv(filePath);
+            const directory = '../uploads';
+            if (!fs.existsSync(directory)) {
+                fs.mkdirSync(directory);
+            }
+            const filePath = `${directory}/${photoProfile.name}`;
+            await photoProfile.mv(filePath);
 
             // Update path foto profil di database
-                await data.update({name, address, photoProfile: filePath});
-            } 
-            else {
+            await data.update({name, address, photoProfile: filePath});
+        } else {
             await data.update({name, address});
-            }
-            res.redirect(`/myprofiles/${id}`);
+        }
+        res.redirect(`/myprofiles/${id}`);
         } catch (error) {
             console.log(error)
             res.send(error);

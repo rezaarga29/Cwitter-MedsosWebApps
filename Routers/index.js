@@ -1,5 +1,8 @@
 const Controller = require('../Controllers/controller');
 const router = require('express').Router();
+const fileUpload = require('express-fileupload');
+
+router.use(fileUpload()); 
 
 router.get('/', (req, res) => {
     const { error } = req.query
@@ -42,13 +45,4 @@ router.post('/myprofiles/:id/edit', Controller.postEditProfile)
 router.get('/myprofiles/:id/delete/:postId', Controller.getDeleteContent)
 
 
-
-
-
-// router.get('/users/add', Controller.getAddMeme); //menampilkan form Register
-// router.post('/users/add',Controller.postAddMeme); //menambah user
-// router.get('/profiles/:id/edit', Controller.getVote); //edit nama dan address //!saat edit nama hooks bekerja username ikut berubah
-// router.get('/users/:id/post/add',Controller.getFunny) // menampilkan form add post beserta Tagnya berupa select option
-// router.post('/users/:id/post/add',Controller.getFunny) // menambahkan post 
-// router.get('/users/:id/post/delete',Controller.getFunny) // menghapus postingan
 module.exports = router;
