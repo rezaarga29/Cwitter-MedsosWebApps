@@ -8,14 +8,22 @@ router.get('/', (req, res)=> {
 router.get('/register', (req, res)=> {
     res.render('Register');
 });
-router.get('/login', (req, res)=> {
-    res.render('Login');
-});
+router.post('/register', Controller.postRegister);
+
+router.get('/login', Controller.getLogin);
+router.post('/login', Controller.postLogin);
 
 router.get('/profiles', Controller.getProfiles) // tampilkan nama dan address saja //!ada fitur search disini
-router.get('/profiles/:id', Controller.getProfileDetails) // semua data tampil hanya admin
+
+router.get('/profiles/:id', Controller.getProfilesDetails)
+
+router.get('/myprofiles/:id', Controller.getAddContent)
+router.post('/myprofiles/:id', Controller.postAddContent)
+
+
 
 router.get('/post', Controller.getPost)
+
 
 // router.get('/users/add', Controller.getAddMeme); //menampilkan form Register
 // router.post('/users/add',Controller.postAddMeme); //menambah user

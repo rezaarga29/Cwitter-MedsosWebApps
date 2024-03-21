@@ -55,6 +55,9 @@
 <body>
   <div class="container">
     <h2>Login to Cwitter</h2>
+    <% if (error) { %>
+      <p style="color: red; text-align: center;"><%= error %>!!</p>
+    <% } %>
     <form action="/login" method="post">
       <input type="email" name="email" placeholder="Enter your email" required>
       <input type="password" name="password" placeholder="Enter your password" required>

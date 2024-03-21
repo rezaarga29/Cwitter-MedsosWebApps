@@ -54,6 +54,26 @@
     .tweet-author {
       font-size: 16px;
       color: #666;
+      margin: 1px;
+    }
+    .form-container {
+      margin-top: 20px;
+    }
+    .form-container textarea,
+    .form-container input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .form-container input[type="submit"] {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -61,18 +81,22 @@
   <nav class="navbar">
     <a href="#" class="navbar-brand">Cwitter</a>
     <a href="/profiles" class="navbar-btn">All Users</a>
-    <a href="/logout" class="navbar-btn">Logout</a>
+    <a href="/" class="navbar-btn">Logout</a>
   </nav>
+  
   <div class="container">
-    <div class="tweet">
-      <p class="tweet-text">This is a sample tweet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel elit nec ligula bibendum tincidunt at a dui.</p>
-      <p class="tweet-author">Posted by John Doe</p>
-    </div>
-    <div class="tweet">
-      <p class="tweet-text">Another sample tweet. Fusce sollicitudin arcu at justo suscipit, vel fermentum purus efficitur. In commodo fringilla fermentum.</p>
-      <p class="tweet-author">Posted by Jane Smith</p>
-    </div>
-    <!-- Add more tweets here -->
+    <% data.forEach(e => { %>
+      <div class="tweet">
+        <% e.Posts.forEach(i => { %>
+          <p class="tweet-text"><%= i.content %></p>
+          <% i.Tags.forEach(j => { %>
+            <p class="tweet-text"><%= j.hashTag %></p>
+            <a href="/profiles/<%= e.id %>"><p class="tweet-author">Posted by <%= e.name %></p></a>
+            <p class="tweet-author"><%= published(j.createdAt) %></p>
+          <% }); %>
+        <% }); %>
+      </div>z
+    <% }); %>
   </div>
 </body>
 </html>

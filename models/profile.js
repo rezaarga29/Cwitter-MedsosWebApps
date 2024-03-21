@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Profile',
+    hooks: {
+      beforeCreate: (profile, options) => {
+        profile.userName = `User_` + profile.name.toLowerCase().split(' ').join('_');
+        profile.photoProfile = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
+      }
+    }
   });
   return Profile;
 };

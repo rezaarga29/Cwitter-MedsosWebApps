@@ -16,6 +16,11 @@
     .navbar {
       background-color: #007bff;
       padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      /* Menyusun item di navbar secara horizontal */
+      align-items: center;
+      /* Memposisikan item di tengah navbar */
     }
 
     .navbar-brand {
@@ -121,34 +126,82 @@
     .form-container input[type="submit"]:hover {
       background-color: #0056b3;
     }
+
+    .logout-btn {
+      padding: 8px 15px;
+      background-color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .people-content-btn {
+      padding: 8px 15px;
+      background-color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      /* Menambahkan style untuk menghapus underline */
+      margin-right: 10px;
+      /* Menambahkan margin untuk jarak dari tombol search */
+    }
+
+    .checkbox-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 10px;
+      /* Atur margin antara checkbox */
+    }
   </style>
 </head>
 
 <body>
   <nav class="navbar">
     <a href="#" class="navbar-brand">Cwitter</a>
+    <a href="/post" class="people-content-btn">People Content</a>
+    <a style="text-decoration: none;" href="/" class="logout-btn">Logout</a>
   </nav>
   <div class="container">
     <% data.forEach((e)=> { %>
-        <div class="card">
-          <img src="<%= e.photoProfile %>" alt="Profile Photo">
-          <div class="card-content">
-            <h2 class="name"><%= e.name %></h2>
-            <p class="address"><%= e.address %></p>
-            <p class="address"><%= e.userName %></p>
-          </div>
-        </div>
+    <div class="card">
+      <img src="<%= e.photoProfile %>" alt="Profile Photo">
+      <div class="card-content">
+        <h2 class="name"><%= e.name %></h2>
+        <p class="address"><%= e.address %></p>
+        <p class="address"><%= e.userName %></p>
       </div>
-        <div class="tweet">
-          <% e.Posts.forEach(i => { %>
-            <p class="tweet-text"><%= i.content %></p>
-            <% i.Tags.forEach(j => { %>
-              <p class="tweet-text"><%= j.hashTag %></p>
-              <a href="/profiles/<%= e.id %>"><p class="tweet-author">Posted by <%= e.name %></p></a>
-              <p class="tweet-author"><%= published(j.createdAt) %></p>
-            <% }); %>
-          <% }); %>
-        </div>
-    <% }) %>
-  </body>
+    </div>
+  </div>
+  <div class="form-container">
+    <form action="/myprofiles/<%= e.id %>" method="post" id="post-form">
+      <textarea name="content" placeholder="Type your post here..." rows="4"></textarea>
+      <div class="checkbox-container">
+        <% tag.forEach(k => { %>
+          <input type="checkbox" name="hashTag" value="<%= k.id %>">
+          <label for="#Meembee"><%= k.hashTag %></label>
+        <% }) %>
+        <br>
+      <input type="submit" value="Post">
+      </div>
+    </form>
+  </div>
+  <div class="tweet">
+    <% e.Posts.forEach(i => { %>
+    <p class="tweet-text"><%= i.content %></p>
+    <% i.Tags.forEach(j => { %>
+    <p class="tweet-text"><%= j.hashTag %></p>
+    <a href="/profiles/<%= e.id %>">
+      <p class="tweet-author">Posted by <%= e.name %></p>
+    </a>
+    <p class="tweet-author"><%= published(j.createdAt) %></p>
+    <% }); %>
+    <% }); %>
+  </div>
+  <% }) %>
+</body>
+
 </html>
