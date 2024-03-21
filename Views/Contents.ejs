@@ -89,13 +89,13 @@
     <% data.forEach(e => { %>
       <div class="tweet">
         <% e.Posts.forEach(i => { %>
-          <p class="tweet-text"><%= i.content %></p>
+          <p  class="tweet-text"><%= i.content %></p>
           <% i.Tags.forEach(j => { %>
-            <p class="tweet-text"><%= j.hashTag %></p>
+            <span style="margin: 1px" class="tweet-text"><%= j.hashTag %></span>
+            <% }); %>
             <a href="/profiles/<%= e.id %>"><p class="tweet-author">Posted by <%= e.name %></p></a>
-            <p class="tweet-author"><%= published(j.createdAt) %></p>
-          <% }); %>
-        <% }); %>
+            <p class="tweet-author"><%= published(i.createdAt) %></p>
+            <% }); %>
       </div>
     <% }); %>
   </div>

@@ -118,8 +118,9 @@ class Controller {
                   ],
                 where: { id }
             })
+            let user = await User.findByPk(id)
             // res.send(data)
-            res.render('ProfileDetails', {data, published})
+            res.render('ProfileDetails', {data, published, user})
         } catch (error) {
             res.send(error)
         }
@@ -135,8 +136,9 @@ class Controller {
                     include: [Tag]
                     }
                   ],
-                where: { id }
+                where: { id } 
             })
+ 
             let tag = await Tag.findAll();
             res.render('MyProfile', {data, published, tag})
         } catch (error) {
@@ -186,7 +188,7 @@ class Controller {
             const photoProfile = req.files.photoProfile;
 
             // Simpan file ke direktori yang diinginkan
-            const directory = '../uploads';
+            const directory = './uploads';
             if (!fs.existsSync(directory)) {
                 fs.mkdirSync(directory);
             }

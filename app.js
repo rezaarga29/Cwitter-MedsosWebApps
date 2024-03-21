@@ -9,13 +9,13 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: false}))
 
 const directoryPath = './uploads';
-
 if (!fs.existsSync(directoryPath)) {
   fs.mkdirSync(directoryPath);
   console.log('Direktori berhasil dibuat.');
 } else {
   console.log('Direktori sudah ada.');
 }
+app.use('/uploads', express.static('uploads'));
 
 app.use(session({
   secret: 'punya kita ',

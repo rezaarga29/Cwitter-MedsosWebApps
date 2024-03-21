@@ -168,7 +168,7 @@
   <div class="container">
     <% data.forEach((e)=> { %>
     <div class="card">
-      <img src="<%= e.photoProfile %>" alt="Profile Photo">
+      <img src=".<%= e.photoProfile %>" alt="Profile Photo">
       <div class="card-content">
         <h2 class="name"><%= e.name %></h2>
         <p class="address"><%= e.address %></p>
@@ -182,27 +182,30 @@
       <textarea name="content" placeholder="Type your post here..." rows="4"></textarea>
       <div class="checkbox-container">
         <% tag.forEach(k => { %>
-          <input type="checkbox" name="hashTag" value="<%= k.id %>">
-          <label for="#Meembee"><%= k.hashTag %></label>
+        <input type="checkbox" name="hashTag" value="<%= k.id %>">
+        <label for="#Meembee"><%= k.hashTag %></label>
         <% }) %>
         <br>
-      <input type="submit" value="Post">
+        <input type="submit" value="Post">
       </div>
     </form>
   </div>
   <div class="tweet">
-    <% e.Posts.forEach(i => { %>
-    <p class="tweet-text"><%= i.content %></p>
-    <% i.Tags.forEach(j => { %>
-    <p style="margin: 1px;" class="tweet-text"><%= j.hashTag %></p>
-    <a href="/profiles/<%= e.id %>">
-    </a>
-    <% }); %>
-    <p class="tweet-author">Posted by <%= e.name %></p>
-    <p class="tweet-author"><%= published(i.createdAt) %></p>
-    <a href="/myprofiles/<%= e.id %>/delete/<%= i.id %>"><button>Delete</button></a>
-    <hr>
-    <% }); %>
+    <% if( e.Posts ) { %>
+      <% e.Posts.forEach(i => { %>
+        <p class="tweet-text"><%= i.content %></p>
+      <% i.Tags.forEach(j => { %>
+        <span style="margin: 1px;" class="tweet-text"><%= j.hashTag %></span>
+        <a href="/profiles/<%= e.id %>">
+        </a>
+      <% }); %>
+        <p class="tweet-author">Posted by <%= e.name %></p>
+        <p class="tweet-author"><%= published(i.createdAt) %></p>
+        <a href="/myprofiles/<%= e.id %>/delete/<%= i.id %>"><button>Delete</button></a>
+        <hr>
+      <% }); %>
+    <% } %>
+
   </div>
   <% }) %>
 </body>
