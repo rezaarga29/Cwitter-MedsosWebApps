@@ -18,7 +18,7 @@ if (!fs.existsSync(directoryPath)) {
 app.use('/uploads', express.static('uploads'));
 
 app.use(session({
-  secret: 'punya kita ',
+  secret: 'punya kita',
   resave: false,
   saveUninitialized: false,
   cookie: { 
@@ -26,6 +26,7 @@ app.use(session({
     sameSite: true 
   }
 }))
+
 app.use(router);
 
 const PORT = process.env.PORT || 3000;

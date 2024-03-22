@@ -37,10 +37,10 @@ class Controller {
         try {
             let { email, password } = req.body
             let user = await User.findOne({ where: { email: email } })
-            const userId = user.id;
-            req.session.role = user.role
-            req.session.userId = userId
+            // const userId = user.id;
             if (user) {
+                req.session.role = user.role
+                req.session.userId = user.id
                 const isValidPassword = bcryptjs.compareSync(password, user.password)
                 if (isValidPassword) {
                     res.redirect('/post')
@@ -52,6 +52,7 @@ class Controller {
                 const error = "Invalid Email!!"
                 res.redirect(`/Login?error=${error}`)
             }
+            
         } catch (error) {
             console.log(error)
             res.send(error)
