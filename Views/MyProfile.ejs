@@ -161,14 +161,14 @@
 
 <body>
   <nav class="navbar">
-    <a href="#" class="navbar-brand">Cwitter</a>
+    <a href="/post" class="navbar-brand">Cwitter</a>
     <a href="/post" class="people-content-btn">People Content</a>
     <a style="text-decoration: none;" href="/logout" class="logout-btn">Logout</a>
   </nav>
   <div class="container">
     <% data.forEach((e)=> { %>
     <div class="card">
-      <img src=".<%= e.photoProfile %>" alt="Profile Photo">
+      <img src="<%= e.photoProfile %>" alt="Profile Photo">
       <div class="card-content">
         <h2 class="name"><%= e.name %></h2>
         <p class="address"><%= e.address %></p>
@@ -193,6 +193,7 @@
   <div class="tweet">
     <% if( e.Posts ) { %>
       <% e.Posts.forEach(i => { %>
+        <img src="<%= e.photoProfile %>" alt="" width="50" height="50">
         <p class="tweet-text"><%= i.content %></p>
       <% i.Tags.forEach(j => { %>
         <span style="margin: 1px;" class="tweet-text"><%= j.hashTag %></span>

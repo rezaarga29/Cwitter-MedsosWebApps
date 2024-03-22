@@ -78,7 +78,8 @@ class Controller {
                 ],
                 where: {
                     '$Posts.id$': { [Op.not]: null } 
-                }
+                },
+                order: [[{ model: Post }, 'createdAt', 'DESC']]
               })
               let id = req.session.userId;
             res.render('Contents', {data, published, id})
@@ -136,7 +137,8 @@ class Controller {
                     include: [Tag]
                     }
                   ],
-                where: { id } 
+                where: { id },
+                order: [[{ model: Post }, 'createdAt', 'DESC']] 
             })
  
             let tag = await Tag.findAll();
@@ -149,7 +151,7 @@ class Controller {
     static async postAddContent(req, res){
         try {
             let { id } = req.params;
-            let { content, hashTag} = req.body;
+            let { content, hashTag } = req.body;
             let post = await Post.create({content, ProfileId: id});
             if(hashTag.length > 1) {
                 hashTag = hashTag.map( async (e)=> {
@@ -158,7 +160,6 @@ class Controller {
             } else {
                 await PostTag.create({PostId: post.id, TagId: hashTag})
             }
-            // await PostTag.bulkCreate(hashTag)
             res.redirect(`/myprofiles/${id}`)
         } catch (error) {
             console.log(error)
@@ -182,21 +183,20 @@ class Controller {
             const {id} = req.params;
         const data = await Profile.findByPk(id);
         const {name, address} = req.body;
-
         // Periksa apakah file diunggah
         if (req.files && req.files.photoProfile) {
             const photoProfile = req.files.photoProfile;
-
             // Simpan file ke direktori yang diinginkan
             const directory = './uploads';
             if (!fs.existsSync(directory)) {
                 fs.mkdirSync(directory);
             }
-            const filePath = `${directory}/${photoProfile.name}`;
+            const filePath = `${directory}/${data.id}.${photoProfile.mimetype.split('/')[1]}`;
             await photoProfile.mv(filePath);
-
+            const url = `http://localhost:3000/uploads/${data.id}.${photoProfile.mimetype.split('/')[1]}`;
             // Update path foto profil di database
-            await data.update({name, address, photoProfile: filePath});
+            await data.update({name, address, photoProfile: url});
+
         } else {
             await data.update({name, address});
         }

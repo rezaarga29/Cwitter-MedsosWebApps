@@ -79,15 +79,16 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="#" class="navbar-brand">Cwitter</a>
+    <a href="/post" class="navbar-brand">Cwitter</a>
     <a href="/myprofiles/<%= id %>" class="navbar-btn">My Profile</a>
     <a href="/profiles" class="navbar-btn">All Users</a>
     <a href="/logout" class="navbar-btn">Logout</a>
   </nav>
   
-  <div class="container">
-    <% data.forEach(e => { %>
+  <% data.forEach(e => { %>
+    <div class="container">
       <div class="tweet">
+        <img src="<%= e.photoProfile %>" alt="" width="50" height="50">
         <% e.Posts.forEach(i => { %>
           <p  class="tweet-text"><%= i.content %></p>
           <% i.Tags.forEach(j => { %>
@@ -97,7 +98,7 @@
             <p class="tweet-author"><%= published(i.createdAt) %></p>
             <% }); %>
       </div>
+    </div>
     <% }); %>
-  </div>
 </body>
 </html>
